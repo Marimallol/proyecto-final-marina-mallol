@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qa-automation-lab"
+version = "0.1.0"
+description = "Independent UI and API test automation practice framework"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31",
+    "selenium>=4.20",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0",
+    "pytest-html>=4.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
