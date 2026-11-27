@@ -1,5 +1,6 @@
 """Checkout flow pages."""
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as conditions
 
 from qa_automation.pages.base import BasePage
 
@@ -19,9 +20,13 @@ class CheckoutPage(BasePage):
         self.enter(self.LAST_NAME, last_name)
         self.enter(self.POSTAL_CODE, postal_code)
         self.click(self.CONTINUE)
+        self.wait.until(conditions.element_to_be_clickable(self.FINISH))
 
     def place_order(self) -> None:
         self.click(self.FINISH)
+        self.wait.until(
+            conditions.visibility_of_element_located(self.COMPLETE_HEADER)
+        )
 
     def confirmation(self) -> str:
         return self.text(self.COMPLETE_HEADER)

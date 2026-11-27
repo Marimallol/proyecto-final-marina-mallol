@@ -1,5 +1,6 @@
 """Shopping cart page actions."""
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as conditions
 
 from qa_automation.pages.base import BasePage
 
@@ -13,6 +14,11 @@ class CartPage(BasePage):
 
     def remove(self, product_id: str) -> None:
         self.click((By.CSS_SELECTOR, f"[data-test='remove-{product_id}']"))
+        self.wait.until(
+            conditions.invisibility_of_element_located(
+                (By.CSS_SELECTOR, f"[data-test='remove-{product_id}']")
+            )
+        )
 
     def checkout(self) -> None:
         self.click(self.CHECKOUT)
