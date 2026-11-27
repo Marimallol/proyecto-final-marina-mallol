@@ -20,6 +20,26 @@ def test_remove_item_from_cart(signed_in_browser):
 
 
 @pytest.mark.ui
+def test_empty_cart_has_no_items(signed_in_browser):
+    InventoryPage(signed_in_browser).open_cart()
+
+    assert CartPage(signed_in_browser).item_names() == []
+
+
+@pytest.mark.ui
+def test_checkout_requires_first_name(signed_in_browser):
+    inventory = InventoryPage(signed_in_browser)
+    inventory.add(BACKPACK)
+    inventory.open_cart()
+    CartPage(signed_in_browser).checkout()
+
+    checkout = CheckoutPage(signed_in_browser)
+    checkout.submit_delivery_details("", "Taylor", "10001")
+
+    assert "First Name is required" in checkout.error_message()
+
+
+@pytest.mark.ui
 @pytest.mark.parametrize(
     ("sort_option", "reverse"),
     [
